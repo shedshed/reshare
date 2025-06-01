@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REshare Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 60px;
+            display: none;
+            overflow-y: auto;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            color: #34495e;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            color: #2980b9;
+            margin: 30px 0 20px 0;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .timeline-date {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-right: 30px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+
+        .capabilities-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .capability-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+        }
+
+        .capability-item h4 {
+            color: #2980b9;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-text {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .impact-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .impact-item {
+            flex: 1;
+        }
+
+        .impact-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .impact-description {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="logo">
+                <div class="logo-text">REshare</div>
+                <div class="tagline">Vietnam's Largest Fashion Circular Platform</div>
+            </div>
+            <h1>"New Life Cycle for Used Clothing"</h1>
+            <div class="impact-stats">
+                <div class="impact-item">
+                    <div class="impact-number">900K+</div>
+                    <div class="impact-description">Clothes Reused</div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-number">400+</div>
+                    <div class="impact-description">Tons Collected</div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-number">85</div>
+                    <div class="impact-description">Tons CO₂ Reduced</div>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 1.4rem; color: #7f8c8d; margin-top: 40px;">
+                Extending clothing lifecycles • Reducing waste • Creating sustainable fashion ecosystem
+            </p>
+        </div>
+
+        <!-- Slide 2: The Problem & Our Mission -->
+        <div class="slide">
+            <h2>The Challenge We're Solving</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 40px 0;">
+                <div>
+                    <h3 style="color: #e74c3c;">The Problem</h3>
+                    <ul style="font-size: 1.2rem; line-height: 1.8;">
+                        <li><strong>400,000+ tons</strong> of textile waste generated annually in Vietnam</li>
+                        <li>No effective collection and processing system</li>
+                        <li>Consumers lack reliable channels for responsible disposal</li>
+                        <li>Quality used clothes wasted instead of being given new life</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #27ae60;">Our Solution</h3>
+                    <ul style="font-size: 1.2rem; line-height: 1.8;">
+                        <li><strong>Comprehensive collection network</strong> across Vietnam</li>
+                        <li><strong>Multi-channel approach:</strong> Reuse, Recycle, Zero-waste disposal</li>
+                        <li><strong>Technology platform</strong> connecting all stakeholders</li>
+                        <li><strong>Circular economy model</strong> creating value from waste</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="background: #ecf0f1; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+                <h3 style="margin-bottom: 20px;">Our Mission</h3>
+                <p style="font-size: 1.4rem; color: #2c3e50; font-style: italic;">
+                    "REshare exists to extend the lifecycle of clothing - helping reduce waste and environmental burden while building a happy, sustainable life for everyone."
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Journey & Key Milestones -->
+        <div class="slide">
+            <h2>Our Growth Journey</h2>
+            <p style="text-align: center; font-size: 1.3rem; margin-bottom: 40px; color: #7f8c8d;">
+                From a small warehouse in Binh Thanh (2020) to Vietnam's largest fashion circular platform
+            </p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2020</div>
+                    <div class="timeline-content">Founded during COVID-19 with 30m² warehouse, 3 staff</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2021</div>
+                    <div class="timeline-content">Website launch • 15,000 products circulated • 50 tons collected</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2022</div>
+                    <div class="timeline-content">Expanded to 240m² warehouse • 16 staff • Incorporated as joint stock company</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023</div>
+                    <div class="timeline-content">Central warehouse 600m² • 270 tons collected • 240 tons given new life</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024</div>
+                    <div class="timeline-content">5 uniform-price stores • Online "0 dong wardrobe" • 40 collection stations</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Impressive Key Metrics -->
+        <div class="slide">
+            <h2>Our Impact in Numbers</h2>
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-number">900K+</div>
+                    <div class="metric-label">Clothes Reused & Recycled</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">30K+</div>
+                    <div class="metric-label">Registered Users</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">400+</div>
+                    <div class="metric-label">Tons of Clothing Collected</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">85</div>
+                    <div class="metric-label">Tons CO₂ Emissions Reduced</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">55</div>
+                    <div class="metric-label">Strategic Partners</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">80%</div>
+                    <div class="metric-label">Reuse/Recycle Rate (321/400 tons)</div>
+                </div>
+            </div>
+            <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; text-align: center; margin-top: 40px;">
+                <h3 style="color: #27ae60; margin-bottom: 15px;">Sustainability Achievement</h3>
+                <p style="font-size: 1.3rem;">Partnership with INSEE for zero-waste disposal ensures <strong>no textile waste</strong> goes to landfills</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Post-Consumer Collection Capabilities -->
+        <div class="slide">
+            <h2>Post-Consumer Collection Capabilities</h2>
+            <div class="capabilities-list">
+                <div class="capability-item">
+                    <h4>🏪 Extensive Collection Network</h4>
+                    <p>40+ collection stations at retail partners (Decathlon, Biti's), corporate offices (MWG, Be Group), and residential complexes</p>
+                </div>
+                <div class="capability-item">
+                    <h4>🚚 Multi-Channel Collection</h4>
+                    <p>Website platform, physical stores, corporate partnerships, and residential pickup services</p>
+                </div>
+                <div class="capability-item">
+                    <h4>⚙️ Advanced Processing</h4>
+                    <p>Quality-based sorting, cleaning, digitization, and pricing for optimal value recovery</p>
+                </div>
+                <div class="capability-item">
+                    <h4>♻️ Complete Lifecycle Management</h4>
+                    <p>Reuse through stores & online • Recycling into new products • Zero-waste disposal partnership</p>
+                </div>
+            </div>
+            <h3>Our Circular Process</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0; font-size: 1.1rem;">
+                <div style="text-align: center; flex: 1;">
+                    <div style="background: #3498db; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                    <strong>Collect</strong>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="background: #3498db; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                    <strong>Sort & Process</strong>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="background: #3498db; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                    <strong>Reuse/Recycle</strong>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <div style="background: #3498db; color: white; padding: 15px; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
+                    <strong>New Products</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Business Model & Technology -->
+        <div class="slide">
+            <h2>Scalable Business Model & Technology</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <h3>Revenue Streams</h3>
+                    <ul style="font-size: 1.2rem; line-height: 1.8;">
+                        <li><strong>Second-hand Sales:</strong> Online platform + 5 physical stores</li>
+                        <li><strong>Zero-emission Processing:</strong> B2B services with INSEE partnership</li>
+                        <li><strong>Recycled Materials:</strong> Reshape Bricks and new fabric materials</li>
+                        <li><strong>Corporate Partnerships:</strong> Collection and processing services</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Technology Platform</h3>
+                    <ul style="font-size: 1.2rem; line-height: 1.8;">
+                        <li><strong>Super App (2026):</strong> Comprehensive circular fashion platform</li>
+                        <li><strong>Digital Tracking:</strong> Complete lifecycle transparency</li>
+                        <li><strong>AI-Powered Sorting:</strong> Quality assessment and pricing</li>
+                        <li><strong>Logistics Network:</strong> Optimized collection and distribution</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; margin-top: 40px;">
+                <h3 style="color: white; margin-bottom: 20px;">Proven Market Leadership</h3>
+                <div style="display: flex; justify-content: space-around; text-align: center;">
+                    <div>
+                        <div style="font-size: 2rem; font-weight: bold;">5</div>
+                        <div>Physical Stores</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2rem; font-weight: bold;">40+</div>
+                        <div>Collection Points</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 2rem; font-weight: bold;">15+</div>
+                        <div>Corporate Partners</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Growth Roadmap & Future -->
+        <div class="slide">
+            <h2>Ambitious Growth Roadmap</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2025</div>
+                    <div class="timeline-content"><strong>Expansion:</strong> 100 collection points • 15 uniform-price stores • Enhanced technology platform</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026</div>
+                    <div class="timeline-content"><strong>Technology & Export:</strong> Full-function Super App launch • Reshape Brick export to international markets</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2027</div>
+                    <div class="timeline-content"><strong>Profitability & Regional:</strong> Positive profit achievement • Expansion to 2 ASEAN countries</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2028-2030</div>
+                    <div class="timeline-content"><strong>Ecosystem Leadership:</strong> Comprehensive circular ecosystem • Strategic Syre partnership • Regional market leadership</div>
+                </div>
+            </div>
+            <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin-top: 40px;">
+                <h3 style="color: #2980b9; margin-bottom: 20px;">Market Opportunity</h3>
+                <p style="font-size: 1.3rem;">Vietnam & ASEAN textile recycling market: <strong>$2+ billion</strong> with 15-20% CAGR driven by sustainability trends and circular economy policies</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Thank You & Contact -->
+        <div class="slide">
+            <h1>Thank You</h1>
+            <div style="text-align: center; margin: 50px 0;">
+                <div style="font-size: 2rem; color: #27ae60; margin-bottom: 30px;">
+                    "Building a sustainable future, one garment at a time"
+                </div>
+                <div style="background: #f8f9fa; padding: 40px; border-radius: 15px; display: inline-block;">
+                    <h3 style="margin-bottom: 30px; color: #2c3e50;">Get in Touch</h3>
+                    <div style="font-size: 1.3rem; line-height: 2;">
+                        <p><strong>Website:</strong> reshare.vn</p>
+                        <p><strong>Email:</strong> support@reshare.vn</p>
+                        <p><strong>Phone:</strong> +84 90 1900 001</p>
+                        <p><strong>Collection Network:</strong> tram.reshare.vn</p>
+                    </div>
+                </div>
+            </div>
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                <h3 style="color: white; margin-bottom: 15px;">Ready to Scale Impact</h3>
+                <p style="font-size: 1.2rem;">Join us in revolutionizing fashion sustainability across Southeast Asia</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">8</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Auto-advance (optional - can be uncommented for demo mode)
+        // setInterval(nextSlide, 10000);
+    </script>
+</body>
+</html>
